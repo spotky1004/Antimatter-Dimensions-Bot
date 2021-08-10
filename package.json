@@ -1,0 +1,17 @@
+{
+  "name": "antimatterdimensionsbot",
+  "version": "1.0.0",
+  "description": "Copy of Antimatter Dimenstions.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node .\\index.js"
+  },
+  "author": "Spotky1004",
+  "license": "ISC",
+  "dependencies": {
+    "decimal.js": "^10.3.1",
+    "discord.js": "^13.0.1",
+    "fs": "0.0.1-security"
+  }
+}
