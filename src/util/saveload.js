@@ -1,9 +1,9 @@
 import fs from "fs";
 import Decimal from "decimal.js";
-import SaveData from "./saveData.js";
+import SaveData from "../data/saveData.js";
 
 /**
- * @param {string} id 
+ * @param {string} id
  * @returns {SaveData}
  */
 export function load(id) {
@@ -38,7 +38,10 @@ export const defaultSave = {
 
     Antimatter: new Decimal(10),
     Dimensions: Array.from({ length: 8 }, () => {return {have: new Decimal(0), bought: new Decimal(0)}}),
-    TickSpeed: new Decimal(0)
+    TickSpeed: new Decimal(0),
+    DimSacrifice: new Decimal(0),
+    DimBoost: new Decimal(0),
+    AntiGalaxy: new Decimal(0),
 };
 
 

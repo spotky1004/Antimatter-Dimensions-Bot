@@ -1,6 +1,6 @@
 import Decimal from "decimal.js";
 
-export default {
+const _SaveData = {
     // Game Status
     LastTick: new Number,
 
@@ -11,4 +11,10 @@ export default {
         bought: new Decimal(0)
     }],
     TickSpeed: new Decimal(0),
+    DimSacrifice: new Decimal(0),
+    DimBoost: new Decimal(0),
+    AntiGalaxy: new Decimal(0)
 };
+const SaveData = _SaveData;
+
+export default SaveData;
