@@ -1,9 +1,11 @@
+import Decimal from "decimal.js";
+
 /**
  * Apply notation to the number.
  * @param {Decimal|number} x 
  * @returns {string}
  */
- function notation(x) {
+export function notation(x) {
     x = new Decimal(x);
 
     if (x.eq(0)) {

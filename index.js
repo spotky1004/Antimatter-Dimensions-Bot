@@ -1,6 +1,3 @@
-import * as Upgrades from "./src/upgrades/_init.js";
-console.log(Upgrades);
-
 import Discord from "discord.js";
 
 import * as AntimatterDimension from "./src/index.js";
@@ -66,4 +63,4 @@ const timer = ms => new Promise(
 
 
 
-//bot.login(Config.token);
+bot.login(Config.token);

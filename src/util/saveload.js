@@ -35,6 +35,7 @@ export function save(id, data) {
 
 export const defaultSave = {
     LastTick: null,
+    Tab: "Dimensions",
 
     Antimatter: new Decimal(10),
     Dimensions: Array.from({ length: 8 }, () => {return {have: new Decimal(0), bought: new Decimal(0)}}),

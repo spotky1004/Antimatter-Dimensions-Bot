@@ -1,19 +1,29 @@
+import Decimal from "decimal.js";
+import { notation } from "../util/functions.js";
+import SaveData from "../data/saveData.js"
+
 import {
     Dimensions,
     Tickspeed,
     DimensionBoost,
     DimensionSacrifice,
     AntimatterGalaxy
-} from "../upgrades/_init.js"
+} from "../upgrades/_init.js";
 
+/**
+ * @param {number} dt 
+ * @param {SaveData} saveData 
+ * @param {string[]} buttonFunc 
+ * @returns { {message: string[], components: object[]} }
+ */
 export default function(dt, saveData, buttonFunc) {
-    const MaxDimensionTier = DimensionBoost.costDimTier();
-    let UnlockedDims = [0];
+    const MaxDimensionTier = DimensionBoost.costDimTier(saveData.DimBoost)+1;
+    let UnlockedDims = [1];
 
     for (let Tier = 7-1; Tier >= 0; Tier--) {
         if (
             saveData.Dimensions[Tier].bought.gte(1) &&
-            Tier+2 <= Cache.maxDimensionTier
+            Tier+2 <= MaxDimensionTier
         ) UnlockedDims.push(Tier+2);
     }
     UnlockedDims.sort((a, b) => a-b);
@@ -27,7 +37,7 @@ export default function(dt, saveData, buttonFunc) {
         const funcParam = rawFunc;
         switch (funcName) {
             case "BuyMax":
-                for (let i = 0; i < Cache.maxDimensionTier; i++) Dimensions[i].buy(saveData, true);
+                for (let i = 0; i < MaxDimensionTier; i++) Dimensions[i].buy(saveData, true);
                 if (UnlockedDims.includes(3)) Tickspeed.buy(saveData, true);
                 break;
             case "BuyDimension":
@@ -79,16 +89,6 @@ export default function(dt, saveData, buttonFunc) {
     let progressBar = ("=".repeat(Math.min(progressBarLength, Math.floor(progress*progressBarLength))) + "-".repeat(Math.max(0, Math.ceil((1-progress)*progressBarLength))));
     progressBar = progressBar.substr(0, progressBarLength/2-3) + (progress*100).toFixed(2).padStart(5, "-") + "%" + progressBar.substr(progressBarLength/2+3);
     output.push(progressBar);
-
-    const width = 80; // max char = 2000 -> max 25 lines
-    output = output.map(e => {
-        const len = e.length;
-        const whitespace = (width-len)/2;
-        return `│${" ".repeat(Math.floor(whitespace))}${e}${" ".repeat(Math.ceil(whitespace))}│`;
-    });
-    output.unshift(`┌${"─".repeat(width)}┐\n│ ${id} ${" ".repeat(width-8-id.length)}- □ x │\n├${"─".repeat(width)}┤`);
-    output.push(`└${"─".repeat(width)}┘`); // Window display by plat
-    output = output.join("\n");
 
     // Compnents
     let components = [];
@@ -159,4 +159,9 @@ export default function(dt, saveData, buttonFunc) {
         type: "ACTION_ROW",
         components: bottomBtns
     });
+
+    return {
+        message: output,
+        components
+    }
 }

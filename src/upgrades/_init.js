@@ -1,5 +1,5 @@
-export { default as Dimensions } from "./Dimension.js";
-export { default as Tickspeed } from "./Tickspeed.js";
-export { default as DimensionBoost } from "./DimensionBoost.js";
-export { default as DimensionSacrifice } from "./DimensionSacrifice.js";
-export { default as AntimatterGalaxy } from "./AntimatterGalaxy.js";
+export { default as Dimensions } from "./Dimensions/Dimensions.js";
+export { default as Tickspeed } from "./Dimensions/Tickspeed.js";
+export { default as DimensionBoost } from "./Dimensions/DimensionBoost.js";
+export { default as DimensionSacrifice } from "./Dimensions/DimensionSacrifice.js";
+export { default as AntimatterGalaxy } from "./Dimensions/AntimatterGalaxy.js";

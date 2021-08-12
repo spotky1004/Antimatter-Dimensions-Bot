@@ -1,6 +1,7 @@
+import { notation } from "../../util/functions.js";
 import Decimal from "decimal.js";
-import Upgrade from "../class/upgrade.js";
-import { DimensionBaseCosts, DimensionCostIncreases, OrdinalNumbers } from "../data/literal.js";
+import Upgrade from "../../class/upgrade.js";
+import { DimensionBaseCosts, DimensionCostIncreases, OrdinalNumbers } from "../../data/literal.js";
 import Tickspeed from "./Tickspeed.js";
 import DimensionBoost from "./DimensionBoost.js";
 
@@ -32,7 +33,7 @@ const Dimensions = Array.from({ length: 8 }, (_, i) => new Upgrade({
             .pow(saveData.Dimensions[this.tier].bought.div(10).floor())
             .mul( Decimal.max(1, DimensionBoost.effect(saveData.DimBoost).div(new Decimal(2).pow(this.tier)) ) );
 
-        if (this.tier === 7) mult = mult.mul(DimSacrifice.effect(saveData.DimSacrifice));
+        if (this.tier === 7) mult = mult.mul(DimensionBoost.effect(saveData.DimSacrifice));
 
         return mult;
     },
@@ -90,7 +91,7 @@ const Dimensions = Array.from({ length: 8 }, (_, i) => new Upgrade({
                 _DimData.bought = bulkAmount;
             }
         } else {
-            const cost = Upgrade.cost(_DimData.bought);
+            const cost = this.cost(_DimData.bought);
             if (saveData.Antimatter.gte(cost)) {
                 saveData.Antimatter = saveData.Antimatter.sub(cost);
                 _DimData.bought = _DimData.bought.add(1);

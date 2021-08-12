@@ -3,6 +3,7 @@ import Decimal from "decimal.js";
 const _SaveData = {
     // Game Status
     LastTick: new Number,
+    Tab: "Dimensions",
 
     // Game Resources
     Antimatter: new Decimal(0),

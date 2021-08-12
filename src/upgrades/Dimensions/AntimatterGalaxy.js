@@ -1,4 +1,6 @@
-import Upgrade from "../class/Upgrade.js";
+import Decimal from "decimal.js";
+import { notation } from "../../util/functions.js";
+import Upgrade from "../../class/Upgrade.js";
 
 export default new Upgrade({
     name: "AntiGalaxy",
