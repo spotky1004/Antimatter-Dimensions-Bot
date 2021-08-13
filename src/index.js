@@ -9,6 +9,8 @@ import SaveData from "./data/saveData.js";
 import * as Tick from "./tick/_init.js";
 const TickLength = Object.keys(Tick).length;
 const tickPriority = [
+    "TabManager",
+    "Infinity",
     "InfinityScreen",
     "Dimensions"
 ];
@@ -32,9 +34,16 @@ export function tick(id, buttonFunc) {
         TickCache[TabName] = Tick[TabName](dt, saveData, buttonFunc);
     }
 
-    let output = TickCache[saveData.Tab].message;
-    output.unshift(`You have ${notation(saveData.Antimatter)} Antimatters (+${notation(Dimensions[0].production(saveData))}/s)`);
-    if (saveData.Unlock.Infinity) output.unshift(`${" ".repeat(35)}You have ${notation(saveData.InfinityPoint).padEnd(NotationLength)} IP`);
+
+
+    // Add base UI
+    let output = [];
+    if (saveData.Unlock.Infinity) output.push(`${" ".repeat(35)}You have ${notation(saveData.InfinityPoint).padEnd(NotationLength)} IP`);
+    output.push(`You have ${notation(saveData.Antimatter)} Antimatters (+${notation(Dimensions[0].production(saveData))}/s)`);
+    
+    
+    
+    output.push(...TickCache[saveData.Tab].message);
     if (output.length < 17) output = output.concat(new Array(17-output.length).fill(""));
     const width = 80; // max char = 2000 -> max 25 lines
     output = output.map(e => {
@@ -47,9 +56,10 @@ export function tick(id, buttonFunc) {
     output = output.join("\n");
 
 
+
     SaveLoad.save(id, saveData);
     return {
         content: `\`\`\`\n${output}\n\`\`\``,
-        components: TickCache[saveData.Tab].components
+        components: [...TickCache.TabManager.components, ...TickCache[saveData.Tab].components]
     }
 }

@@ -1,7 +1,7 @@
-import Discord from "discord.js"
+import Discord from "discord.js";
 import Decimal from "decimal.js";
 
-import SaveData from "../data/saveData.js";
+import SaveData from "../../data/saveData.js";
 
 /**
  * @param {number} dt 

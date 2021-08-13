@@ -15,10 +15,11 @@ export function load(id) {
         data = JSON.parse(fs.readFileSync(path));
     } else {
         data = {};
+        data.StartTime = new Date().getTime();
         data.LastTick = new Date().getTime();
     }
     
-    data = mergeObject(data, defaultSave);
+    data = mergeObject(data, SaveData);
 
     return data;
 }
@@ -32,22 +33,6 @@ export function save(id, data) {
 
     return fs.writeFileSync(path, JSON.stringify(data));
 }
-
-export const defaultSave = {
-    LastTick: null,
-    Tab: "Dimensions",
-    Unlock: {
-        Infinity: false
-    },
-
-    Antimatter: new Decimal(10),
-    Dimensions: Array.from({ length: 8 }, () => {return {have: new Decimal(0), bought: new Decimal(0)}}),
-    TickSpeed: new Decimal(0),
-    DimSacrifice: new Decimal(0),
-    DimBoost: new Decimal(0),
-    AntiGalaxy: new Decimal(0),
-    InfinityPoint: new Decimal(0),
-};
 
 
 

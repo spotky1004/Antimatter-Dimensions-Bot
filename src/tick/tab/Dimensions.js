@@ -1,6 +1,5 @@
 import Decimal from "decimal.js";
-import { notation } from "../util/functions.js";
-import SaveData from "../data/saveData.js";
+import SaveData from "../../data/saveData.js";
 
 import {
     Dimensions,
@@ -8,12 +7,12 @@ import {
     DimensionBoost,
     DimensionSacrifice,
     AntimatterGalaxy
-} from "../upgrades/_init.js";
+} from "../../upgrades/_init.js";
 
 /**
- * @param {number} dt 
- * @param {SaveData} saveData 
- * @param {string[]} buttonFunc 
+ * @param {number} dt
+ * @param {SaveData} saveData
+ * @param {string[]} buttonFunc
  * @returns { {message: string[], components: object[]} }
  */
 export default function(dt, saveData, buttonFunc) {

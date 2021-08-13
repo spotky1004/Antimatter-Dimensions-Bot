@@ -16,14 +16,14 @@ export default class Upgrade {
     constructor({ cost, effect, toString, canBuy, buy }) {
         for (const key in arguments[0]) {
             if (this.#baseArguments.includes(key)) continue;
-            this[key] = arguments[0][key];
+            this[key] ??= arguments[0][key];
         }
         
-        this.cost = cost ?? ((_) => {return { amount: new Decimal(Infinity), resource: ["Antimatter"] } });
-        this.effect = effect ?? ((_) => new Decimal(0));
-        this.toString = toString ?? ((_) => {});
-        this.canBuy = canBuy;
-        this.buy = buy;
+        this.cost ??= cost;
+        this.effect ??= effect;
+        this.toString ??= toString;
+        this.canBuy ??= canBuy;
+        this.buy ??= buy;
     }
     cost = new Function;
     effect = new Function;
