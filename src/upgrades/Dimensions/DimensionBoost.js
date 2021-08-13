@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
 import { notation } from "../../util/functions.js";
+import { NotationLength } from "../../data/literal.js";
 import Upgrade from "../../class/Upgrade.js";
 import { OrdinalNumbers } from "../../data/literal.js";
 
@@ -27,15 +28,15 @@ export default new Upgrade({
         const namespace = bought.gte(4) ? "Dimension Boost" : "Dimension Shift";
 
         let output = "";
-        output += namespace.padEnd(19, " ");
-        output += " " + `(${notation(bought)})`.padEnd(9, " ");
-        output += " " + `: requires ${notation(this.cost(bought)).padEnd(7, " ")}`;
-        output += " " + (OrdinalNumbers[this.costDimTier(bought)] + " Dimensions").padEnd(18, " ");
+        output += namespace.padEnd(19);
+        output += " " + `(${notation(bought)})`.padEnd(NotationLength+2);
+        output += " " + `: requires ${notation(this.cost(bought)).padEnd(NotationLength)}`;
+        output += " " + (OrdinalNumbers[this.costDimTier(bought)] + " Dimensions").padEnd(18);
 
         return output;
     },
     buy(saveData, max=false) { // TODO: make max
-        if (DimensionBoost.canBuy(saveData)) {
+        if (this.canBuy(saveData)) {
             saveData.DimBoost = saveData.DimBoost.add(1);
 
             saveData.Antimatter = new Decimal(10);

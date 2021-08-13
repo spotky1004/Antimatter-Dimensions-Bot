@@ -1,6 +1,6 @@
 import Decimal from "decimal.js";
 import { notation } from "../util/functions.js";
-import SaveData from "../data/saveData.js"
+import SaveData from "../data/saveData.js";
 
 import {
     Dimensions,
@@ -17,6 +17,11 @@ import {
  * @returns { {message: string[], components: object[]} }
  */
 export default function(dt, saveData, buttonFunc) {
+    if (saveData.Antimatter.gte(new Decimal(2).pow(1024))) {
+        saveData.Tab = "InfinityScreen";
+        return;
+    }
+
     const MaxDimensionTier = DimensionBoost.costDimTier(saveData.DimBoost)+1;
     let UnlockedDims = [1];
 
@@ -70,7 +75,6 @@ export default function(dt, saveData, buttonFunc) {
 
     // Display
     let output = [];
-    output.push(`You have ${notation(saveData.Antimatter)} Antimatters (+${notation(AntimatterProduction)}/s)`);
     if (UnlockedDims.includes(3)) output.push(Tickspeed.toString(saveData));
     else output.push("");
     if (saveData.DimBoost.gte(5)) output.push(DimensionSacrifice.toString(saveData));
@@ -93,7 +97,7 @@ export default function(dt, saveData, buttonFunc) {
     // Compnents
     let components = [];
 
-    if (UnlockedDims.includes(3) || saveData.DimBoost.gte(5) || saveData.AntimatterGalaxy.gte(1)) {
+    if (UnlockedDims.includes(3) || saveData.DimBoost.gte(5) || saveData.AntiGalaxy.gte(1)) {
         const canAffordTick = Tickspeed.canBuy(saveData);
 
         components.push({
@@ -115,7 +119,7 @@ export default function(dt, saveData, buttonFunc) {
             ]
         });
     }
-    const DimensionsBtn = (saveData.DimBoost.gte(5) || saveData.AntimatterGalaxy.gte(1) ? Array.from({ length: 8 }, (_, i) => i+1) : UnlockedDims).map(e => {
+    const DimensionsBtn = (saveData.DimBoost.gte(5) || saveData.AntiGalaxy.gte(1) ? Array.from({ length: 8 }, (_, i) => i+1) : UnlockedDims).map(e => {
         const canAfford = Dimensions[e-1].canBuy(saveData);
         return {
             type: "BUTTON",

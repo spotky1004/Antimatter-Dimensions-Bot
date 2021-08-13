@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
 import { notation } from "../../util/functions.js";
+import { NotationLength } from "../../data/literal.js";
 import Upgrade from '../../class/Upgrade.js';
 import AntimatterGalaxy from "./AntimatterGalaxy.js";
 
@@ -13,7 +14,7 @@ export default new Upgrade({
     },
     toString(saveData) {
         const bought = saveData.TickSpeed;
-        return `Tickspeed (${notation(new Decimal(1).sub(AntimatterGalaxy.effect(saveData.AntiGalaxy)).mul(100))}%): ${notation(this.effect(bought, saveData)).padEnd(7)} [Cost: ${notation(this.cost(bought)).padEnd(7)}]`;
+        return `Tickspeed (${notation(new Decimal(1).sub(AntimatterGalaxy.effect(saveData.AntiGalaxy)).mul(100))}%): ${notation(this.effect(bought, saveData)).padEnd(NotationLength)} [Cost: ${notation(this.cost(bought)).padEnd(NotationLength)}]`;
     },
     canBuy(saveData) {
         return saveData.Dimensions[1].have.gte(1) && saveData.Antimatter.gte(this.cost(saveData.TickSpeed));

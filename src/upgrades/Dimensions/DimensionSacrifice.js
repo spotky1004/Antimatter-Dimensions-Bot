@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
 import { notation } from "../../util/functions.js";
+import { NotationLength } from "../../data/literal.js";
 import Upgrade from "../../class/Upgrade.js";
 
 export default new Upgrade({

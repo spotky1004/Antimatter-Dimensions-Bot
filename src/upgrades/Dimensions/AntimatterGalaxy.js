@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
 import { notation } from "../../util/functions.js";
+import { NotationLength } from "../../data/literal.js";
 import Upgrade from "../../class/Upgrade.js";
 
 export default new Upgrade({
@@ -24,8 +25,8 @@ export default new Upgrade({
 
         let output = "";
         output += "Antimatter Galaxies";
-        output += " " + `(${notation(bought)})`.padEnd(9, " ");
-        output += " " + `: requires ${notation(this.cost(bought)).padEnd(7, " ")} Eighth Dimensions `;
+        output += " " + `(${notation(bought)})`.padEnd(NotationLength+2);
+        output += " " + `: requires ${notation(this.cost(bought)).padEnd(NotationLength)} Eighth Dimensions `;
 
         return output;
     },

@@ -36,6 +36,9 @@ export function save(id, data) {
 export const defaultSave = {
     LastTick: null,
     Tab: "Dimensions",
+    Unlock: {
+        Infinity: false
+    },
 
     Antimatter: new Decimal(10),
     Dimensions: Array.from({ length: 8 }, () => {return {have: new Decimal(0), bought: new Decimal(0)}}),
@@ -43,6 +46,7 @@ export const defaultSave = {
     DimSacrifice: new Decimal(0),
     DimBoost: new Decimal(0),
     AntiGalaxy: new Decimal(0),
+    InfinityPoint: new Decimal(0),
 };
 
 

@@ -4,6 +4,9 @@ const _SaveData = {
     // Game Status
     LastTick: new Number,
     Tab: "Dimensions",
+    Unlock: {
+        Infinity: new Boolean
+    },
 
     // Game Resources
     Antimatter: new Decimal(0),
@@ -14,7 +17,8 @@ const _SaveData = {
     TickSpeed: new Decimal(0),
     DimSacrifice: new Decimal(0),
     DimBoost: new Decimal(0),
-    AntiGalaxy: new Decimal(0)
+    AntiGalaxy: new Decimal(0),
+    InfinityPoint: new Decimal(0),
 };
 const SaveData = _SaveData;
 

@@ -1,5 +1,6 @@
-import { notation } from "../../util/functions.js";
 import Decimal from "decimal.js";
+import { notation } from "../../util/functions.js";
+import { NotationLength } from "../../data/literal.js";
 import Upgrade from "../../class/upgrade.js";
 import { DimensionBaseCosts, DimensionCostIncreases, OrdinalNumbers } from "../../data/literal.js";
 import Tickspeed from "./Tickspeed.js";
@@ -55,9 +56,9 @@ const Dimensions = Array.from({ length: 8 }, (_, i) => new Upgrade({
         const DimData = saveData.Dimensions[this.tier];
 
         let output = "";
-        output += (this.name).padEnd(18, " ");
-        output += " " + (`x${notation(this.mult(saveData))}`).padEnd(8, " ");
-        output += " " + `${notation(DimData.have).padEnd(9, " ")}` + `(${notation(DimData.bought)})`.padEnd(9, " ");
+        output += (this.name).padEnd(18);
+        output += " " + `x${notation(this.mult(saveData)).padEnd(NotationLength)}`;
+        output += " " + `${notation(DimData.have).padEnd(NotationLength)} ` + `(${notation(DimData.bought)})`.padEnd(NotationLength+2);
         if (this.tier !== 7) {
             const nextProduction = a[this.tier+1].production(saveData);
             const per = nextProduction.div(DimData.have).mul(100).toNumber();
@@ -66,7 +67,7 @@ const Dimensions = Array.from({ length: 8 }, (_, i) => new Upgrade({
         } else {
             output += " ".repeat(10);
         }
-        output += " " + `[Cost: ${notation(this.cost(DimData.bought)).padEnd(7, " ")}]`;
+        output += " " + `[Cost: ${notation(this.cost(DimData.bought)).padEnd(NotationLength)}]`;
 
         return output;
     },

@@ -1,8 +1,18 @@
 import Discord from "discord.js";
 
+import { Dimensions } from "./upgrades/_init.js";
+import { notation } from "./util/functions.js";
+import { NotationLength } from "./data/literal.js";
+
 import * as SaveLoad from "./util/saveload.js";
 import SaveData from "./data/saveData.js";
 import * as Tick from "./tick/_init.js";
+const TickLength = Object.keys(Tick).length;
+const tickPriority = [
+    "InfinityScreen",
+    "Dimensions"
+];
+
 
 /**
  * @returns {Discord.MessageOptions} - Display of the Game
@@ -17,11 +27,15 @@ export function tick(id, buttonFunc) {
 
     /** @type {Object.<string, {message: string[], components: object[]}>} */
     const TickCache = {};
-    for (const tab in Tick) {
-        TickCache[tab] = Tick[tab](dt, saveData, buttonFunc);
+    for (let i = 0; i < TickLength; i++) {
+        const TabName = tickPriority[i];
+        TickCache[TabName] = Tick[TabName](dt, saveData, buttonFunc);
     }
 
     let output = TickCache[saveData.Tab].message;
+    output.unshift(`You have ${notation(saveData.Antimatter)} Antimatters (+${notation(Dimensions[0].production(saveData))}/s)`);
+    if (saveData.Unlock.Infinity) output.unshift(`${" ".repeat(35)}You have ${notation(saveData.InfinityPoint).padEnd(NotationLength)} IP`);
+    if (output.length < 17) output = output.concat(new Array(17-output.length).fill(""));
     const width = 80; // max char = 2000 -> max 25 lines
     output = output.map(e => {
         const len = e.length;
