@@ -14,22 +14,17 @@ export default class Upgrade {
      * @param {UpgradeConstructor} obj
      */
     constructor({ cost, effect, toString, canBuy, buy }) {
+        if (typeof cost !== "undefined") this.cost = cost;
+        if (typeof effect !== "undefined") this.effect = effect;
+        if (typeof toString !== "undefined") this.toString = toString;
+        if (typeof canBuy !== "undefined") this.canBuy = canBuy;
+        if (typeof buy !== "undefined") this.buy = buy;
+
         for (const key in arguments[0]) {
             if (this.#baseArguments.includes(key)) continue;
-            this[key] ??= arguments[0][key];
+            this[key] = arguments[0][key];
         }
-        
-        this.cost ??= cost;
-        this.effect ??= effect;
-        this.toString ??= toString;
-        this.canBuy ??= canBuy;
-        this.buy ??= buy;
     }
-    cost = new Function;
-    effect = new Function;
-    toString = new Function;
-    canBuy = new Function;
-    buy = new Function;
 
     #baseArguments = ["cost", "effect", "toString", "canBuy", "buy"];
 }
