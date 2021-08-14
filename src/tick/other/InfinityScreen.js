@@ -1,6 +1,7 @@
 import Discord from "discord.js";
 import Decimal from "decimal.js";
 
+import { Prestige } from "../../util/game.js";
 import SaveData from "../../data/saveData.js";
 
 /**
@@ -11,20 +12,12 @@ import SaveData from "../../data/saveData.js";
  */
 export default function(dt, saveData, buttonFunc) {
     if (buttonFunc.includes("BigCrunch")) {
-        saveData.Unlock.Infinity = true;
         saveData.InfinityPoint = saveData.InfinityPoint.add(1);
         saveData.Tab = "Dimensions";
-
-        saveData.AntiGalaxy = new Decimal(0);
-        saveData.DimBoost = new Decimal(0);
-        saveData.Antimatter = new Decimal(10);
-        for (let i = 0; i < 8; i++) {
-            const _DimData = saveData.Dimensions[i];
-            _DimData.have = new Decimal(0);
-            _DimData.bought = new Decimal(0);
-        }
-        saveData.TickSpeed = new Decimal(0);
-        saveData.DimSacrifice = new Decimal(0);
+        saveData.Unlock.Infinity = true;
+        saveData.PrestigeStat.Infinity = saveData.PrestigeStat.Infinity.add(1);
+        
+        Prestige.Infinity(saveData);
     }
 
     return {

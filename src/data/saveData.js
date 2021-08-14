@@ -8,6 +8,15 @@ const _SaveData = {
     Unlock: {
         Infinity: false,
     },
+    PrestigeStat: {
+        Infinity: new Decimal(0),
+    },
+    PrestigeTime: {
+        Infinity: Infinity,
+    },
+    FastPrestige: {
+        Infinity: Infinity,
+    },
 
     // Game Resources
     Antimatter: new Decimal(10),

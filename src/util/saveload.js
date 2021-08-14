@@ -15,23 +15,23 @@ export function load(id) {
         data = JSON.parse(fs.readFileSync(path));
     } else {
         data = {};
-        data.StartTime = new Date().getTime();
-        data.LastTick = new Date().getTime();
     }
-    
+
     data = mergeObject(data, SaveData);
+
+    if (!Number.isFinite(data.StartTime)) data.StartTime = new Date().getTime();
+    if (!Number.isFinite(data.LastTick)) data.LastTick = new Date().getTime();
+    if (!Number.isFinite(data.PrestigeTime.Infinity)) data.PrestigeTime.Infinity = new Date().getTime();
 
     return data;
 }
 /**
  * @param {string} id 
  * @param {SaveData} data 
- * @returns 
  */
 export function save(id, data) {
     const path = `./SaveDatas/${id}.json`;
-
-    return fs.writeFileSync(path, JSON.stringify(data));
+    fs.writeFileSync(path, JSON.stringify(data));
 }
 
 

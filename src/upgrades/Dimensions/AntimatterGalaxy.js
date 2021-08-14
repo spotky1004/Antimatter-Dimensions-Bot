@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
 import { notation } from "../../util/functions.js";
+import { Prestige } from "../../util/game.js";
 import { NotationLength } from "../../data/literal.js";
 import Upgrade from "../../class/Upgrade.js";
 
@@ -13,7 +14,7 @@ const GalaxyEffect = [
     [11, 16.06, 22.12, 22.88247, 30.77374, 37.85751, 44.21642, 49.92463, 55.04874, 59.6485, 63.77758],
     [11, 16.6, 23.2, 23.62073, 32.09283, 39.62519, 46.32205, 52.27609, 57.56969, 62.27612, 66.46051],
     [11, 16.666, 23.332, 23.71048, 32.25232, 39.83776, 46.5739, 52.55581, 57.86795, 62.58531, 66.77449]
-];
+]; // Tickspeed effect table from [https://antimatter-dimensions.fandom.com/wiki/Ticks#Tickspeed_upgrades]
 
 export default new Upgrade({
     name: "AntiGalaxy",
@@ -41,14 +42,6 @@ export default new Upgrade({
 
         saveData.AntiGalaxy = saveData.AntiGalaxy.add(1);
 
-        saveData.DimBoost = new Decimal(0);
-        saveData.Antimatter = new Decimal(10);
-        for (let i = 0; i < 8; i++) {
-            const _DimData = saveData.Dimensions[i];
-            _DimData.have = new Decimal(0);
-            _DimData.bought = new Decimal(0);
-        }
-        saveData.TickSpeed = new Decimal(0);
-        saveData.DimSacrifice = new Decimal(0);
+        Prestige.AntimatterGalaxy(saveData)
     }
 });

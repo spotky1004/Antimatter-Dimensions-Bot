@@ -8,7 +8,7 @@ import SaveData from "../../data/saveData.js";
  */
 export default function(dt, saveData, buttonFunc) {
     if (buttonFunc.includes("TabDimensions")) saveData.Tab = "Dimensions";
-    if (buttonFunc.includes("TabInfinity")) saveData.Tab = "Infinity";
+    if (buttonFunc.includes("TabInfinityUpgrades")) saveData.Tab = "InfinityUpgrades";
 
 
 
@@ -23,7 +23,7 @@ export default function(dt, saveData, buttonFunc) {
     if (saveData.Unlock.Infinity) {
         tabComponents.push({
             type: "BUTTON",
-            custom_id: "TabInfinity",
+            custom_id: "TabInfinityUpgrades",
             label: "Infinity",
             style: "SECONDARY"
         });

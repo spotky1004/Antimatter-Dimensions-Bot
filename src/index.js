@@ -10,7 +10,7 @@ import * as Tick from "./tick/_init.js";
 const TickLength = Object.keys(Tick).length;
 const tickPriority = [
     "TabManager",
-    "Infinity",
+    "InfinityUpgrades",
     "InfinityScreen",
     "Dimensions"
 ];
@@ -45,7 +45,7 @@ export function tick(id, buttonFunc) {
     
     output.push(...TickCache[saveData.Tab].message);
     if (output.length < 17) output = output.concat(new Array(17-output.length).fill(""));
-    const width = 80; // max char = 2000 -> max 25 lines
+    const width = 85; // max char = 2000 -> max 23 lines
     output = output.map(e => {
         const len = e.length;
         const whitespace = (width-len)/2;

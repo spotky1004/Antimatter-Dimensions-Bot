@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
 import { notation } from "../../util/functions.js";
+import { Prestige } from "../../util/game.js";
 import { NotationLength } from "../../data/literal.js";
 import Upgrade from "../../class/Upgrade.js";
 import { OrdinalNumbers } from "../../data/literal.js";
@@ -39,14 +40,7 @@ export default new Upgrade({
         if (this.canBuy(saveData)) {
             saveData.DimBoost = saveData.DimBoost.add(1);
 
-            saveData.Antimatter = new Decimal(10);
-            for (let i = 0; i < 8; i++) {
-                const _DimData = saveData.Dimensions[i];
-                _DimData.have = new Decimal(0);
-                _DimData.bought = new Decimal(0);
-            }
-            saveData.TickSpeed = new Decimal(0);
-            saveData.DimSacrifice = new Decimal(0);
+            Prestige.DimensionBoost(saveData);
         }
     }
 });
