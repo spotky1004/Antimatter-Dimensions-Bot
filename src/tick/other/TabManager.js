@@ -1,11 +1,9 @@
 import SaveData from "../../data/saveData.js";
+import TickFunc from "../../types/tickFunc.js";
 
-/**
- * @param {number} dt 
- * @param {SaveData} saveData 
- * @param {string[]} buttonFunc 
- * @returns { {message: string[], components: object[]} }
- */
+
+
+/** @type {TickFunc} */
 export default function(dt, saveData, buttonFunc) {
     if (buttonFunc.includes("TabDimensions")) saveData.Tab = "Dimensions";
     if (buttonFunc.includes("TabInfinityUpgrades")) saveData.Tab = "InfinityUpgrades";

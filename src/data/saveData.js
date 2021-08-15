@@ -7,15 +7,19 @@ const _SaveData = {
     Tab: "Dimensions",
     Unlock: {
         Infinity: false,
+        Eternity: false,
     },
     PrestigeStat: {
         Infinity: new Decimal(0),
+        Eternity: new Decimal(0),
     },
     PrestigeTime: {
         Infinity: Infinity,
+        Eternity: Infinity,
     },
     FastPrestige: {
         Infinity: Infinity,
+        Eternity: Infinity,
     },
 
     // Game Resources

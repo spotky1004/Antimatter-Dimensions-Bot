@@ -1,15 +1,12 @@
 import Discord from "discord.js";
-import Decimal from "decimal.js";
 
 import { Prestige } from "../../util/game.js";
 import SaveData from "../../data/saveData.js";
+import TickFunc from "../../types/tickFunc.js";
 
-/**
- * @param {number} dt 
- * @param {SaveData} saveData 
- * @param {string[]} buttonFunc 
- * @returns { {message: string[], components: Discord.MessageButton[]} }
- */
+
+
+/** @type {TickFunc} */
 export default function(dt, saveData, buttonFunc) {
     if (buttonFunc.includes("BigCrunch")) {
         saveData.InfinityPoint = saveData.InfinityPoint.add(1);

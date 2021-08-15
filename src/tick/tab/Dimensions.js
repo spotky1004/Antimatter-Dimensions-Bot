@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
 import SaveData from "../../data/saveData.js";
+import TickFunc from "../../types/tickFunc.js";
 
 import {
     Dimensions,
@@ -9,12 +10,9 @@ import {
     AntimatterGalaxy
 } from "../../upgrades/_init.js";
 
-/**
- * @param {number} dt
- * @param {SaveData} saveData
- * @param {string[]} buttonFunc
- * @returns { {message: string[], components: object[]} }
- */
+
+
+/** @type {TickFunc} */
 export default function(dt, saveData, buttonFunc) {
     if (saveData.Antimatter.gte(new Decimal(2).pow(1024))) {
         saveData.Tab = "InfinityScreen";

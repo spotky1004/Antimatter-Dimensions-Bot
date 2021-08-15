@@ -22,6 +22,7 @@ export function load(id) {
     if (!Number.isFinite(data.StartTime)) data.StartTime = new Date().getTime();
     if (!Number.isFinite(data.LastTick)) data.LastTick = new Date().getTime();
     if (!Number.isFinite(data.PrestigeTime.Infinity)) data.PrestigeTime.Infinity = new Date().getTime();
+    if (!Number.isFinite(data.PrestigeTime.Eternity)) data.PrestigeTime.Eternity = new Date().getTime();
 
     return data;
 }
