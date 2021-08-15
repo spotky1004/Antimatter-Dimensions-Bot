@@ -12,7 +12,7 @@ export const Prestige = {
         saveData.DimSacrifice = new Decimal(0);
     },
     AntimatterGalaxy(saveData) {
-        saveData.DimBoost = new Decimal(0);
+        saveData.DimBoost = new Decimal(startDimBoost(saveData));
         this.DimensionBoost(saveData);
     },
     Infinity(saveData) {
@@ -24,6 +24,18 @@ export const Prestige = {
         );
         saveData.PrestigeTime.Infinity = new Date().getTime();
 
+        saveData.AntiGalaxy = new Decimal(startGalaxy(saveData));
+
         this.AntimatterGalaxy(saveData);
     }
 };
+
+export function startDimBoost(saveData) {
+    return saveData.InfinityUpgrade.includes(13) +
+        saveData.InfinityUpgrade.includes(14) +
+        saveData.InfinityUpgrade.includes(15) +
+        saveData.InfinityUpgrade.includes(16);
+}
+export function startGalaxy(saveData) {
+    return Number(saveData.InfinityUpgrade.includes(16));
+}

@@ -1,10 +1,15 @@
 import Decimal from "decimal.js";
+import SaveData from "../../data/saveData.js";
 import { notation } from "../../util/functions.js";
 import { NotationLength } from "../../data/literal.js";
 import Upgrade from "../../class/upgrade.js";
 import { DimensionBaseCosts, DimensionCostIncreases, OrdinalNumbers } from "../../data/literal.js";
+// Dimensions
 import Tickspeed from "./Tickspeed.js";
 import DimensionBoost from "./DimensionBoost.js";
+import DimensionSacrifice from "./DimensionSacrifice.js";
+// Infinity
+import InfinityUpgrades from "../Infinity/InfinityUpgrades.js";
 
 /**
  * @typedef {object} Dimension
@@ -30,11 +35,23 @@ const Dimensions = Array.from({ length: 8 }, (_, i) => new Upgrade({
      * @returns {Decimal}
      */
     mult(saveData) {
-        let mult = new Decimal(2)
-            .pow(saveData.Dimensions[this.tier].bought.div(10).floor())
-            .mul( Decimal.max(1, DimensionBoost.effect(saveData.DimBoost).div(new Decimal(2).pow(this.tier)) ) );
+        let multPer10 = new Decimal(2);
+        multPer10 = InfinityUpgrades.applyEffect(5, saveData, multPer10, "mul");
 
-        if (this.tier === 7) mult = mult.mul(DimensionBoost.effect(saveData.DimSacrifice));
+        let mult = multPer10
+            .pow(saveData.Dimensions[this.tier].bought.div(10).floor())
+            .mul( Decimal.max(1, DimensionBoost.effect(saveData.DimBoost, saveData).div(new Decimal(2).pow(this.tier)) ) );
+
+        if (this.tier === 7) mult = mult.mul(DimensionSacrifice.effect(saveData.DimSacrifice));
+
+        // Infinity
+        mult = InfinityUpgrades.applyEffect(1, saveData, mult, "mul");
+        if ([0, 7].includes(this.tier)) mult = InfinityUpgrades.applyEffect(2, saveData, mult, "mul");
+        if ([1, 6].includes(this.tier)) mult = InfinityUpgrades.applyEffect(3, saveData, mult, "mul");
+        if ([2, 5].includes(this.tier)) mult = InfinityUpgrades.applyEffect(6, saveData, mult, "mul");
+        if ([3, 4].includes(this.tier)) mult = InfinityUpgrades.applyEffect(7, saveData, mult, "mul");
+        mult = InfinityUpgrades.applyEffect(9, saveData, mult, "mul");
+        if (this.tier === 0) mult = InfinityUpgrades.applyEffect(10, saveData, mult, "mul");
 
         return mult;
     },

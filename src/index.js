@@ -17,6 +17,8 @@ const tickPriority = [
 
 
 /**
+ * @param {string} id
+ * @param {string[]} buttonFunc
  * @returns {Discord.MessageOptions} - Display of the Game
  */
 export function tick(id, buttonFunc) {
@@ -27,11 +29,24 @@ export function tick(id, buttonFunc) {
     const dt = (Time - saveData.LastTick)/1000;
     saveData.LastTick = Time;
 
+    /** @type {Map<string, (string|number)[]|null>} */
+    let event = new Map(
+        buttonFunc
+            .map(e => e.split("_"))
+            .map(e => {
+                const name = e.shift();
+                let param = e.length > 0 ? e.map(e => isNaN(e) ? e : +e) : null;
+                if (Array.isArray(param) && param.length === 1) param = param[0];
+                return [name, param];
+            })
+    );
+
     /** @type {Object.<string, {message: string[], components: object[]}>} */
     const TickCache = {};
     for (let i = 0; i < TickLength; i++) {
         const TabName = tickPriority[i];
-        TickCache[TabName] = Tick[TabName](dt, saveData, buttonFunc);
+
+        TickCache[TabName] = Tick[TabName](dt, saveData, event);
     }
 
 

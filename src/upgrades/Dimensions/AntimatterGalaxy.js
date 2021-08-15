@@ -3,6 +3,8 @@ import { notation } from "../../util/functions.js";
 import { Prestige } from "../../util/game.js";
 import { NotationLength } from "../../data/literal.js";
 import Upgrade from "../../class/Upgrade.js";
+// Infinity
+import InfinityUpgrades from "../Infinity/InfinityUpgrades.js";
 
 const GalaxyEffect = [
     [11, 12, 14, 17.09844, 20, 22.8, 25.502, 28.10943, 30.6256, 33.0537, 35.39682],
@@ -18,14 +20,21 @@ const GalaxyEffect = [
 
 export default new Upgrade({
     name: "AntiGalaxy",
-    cost(bought) {
-        return new Decimal(80).add(bought.mul(60));
+    cost(bought, saveData) {
+        let cost = new Decimal(80).add(bought.mul(60));
+
+        // Infinity
+        cost = InfinityUpgrades.applyEffect(4, saveData, cost, "sub");
+
+        return cost;
     },
-    effect(bought) {
-        return new Decimal(1).sub(GalaxyEffect[0][bought.toNumber()]/100);
+    effect(bought, saveData) {
+        const effIdx = saveData.InfinityUpgrade.includes(8) ? 1 : 0;
+
+        return new Decimal(1).sub(GalaxyEffect[effIdx][bought.toNumber()]/100);
     },
     canBuy(saveData) {
-        return saveData.Dimensions[7].have.gte(this.cost(saveData.AntiGalaxy));
+        return saveData.Dimensions[7].have.gte(this.cost(saveData.AntiGalaxy, saveData));
     },
     toString(saveData) {
         const bought = saveData.AntiGalaxy;
@@ -33,7 +42,7 @@ export default new Upgrade({
         let output = "";
         output += "Antimatter Galaxies";
         output += " " + `(${notation(bought)})`.padEnd(NotationLength+2);
-        output += " " + `: requires ${notation(this.cost(bought)).padEnd(NotationLength)} Eighth Dimensions `;
+        output += " " + `: requires ${notation(this.cost(bought, saveData)).padEnd(NotationLength)} Eighth Dimensions `;
 
         return output;
     },

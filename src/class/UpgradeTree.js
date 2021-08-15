@@ -80,6 +80,36 @@ export default class UpgradeTree {
     /**
      * @param {number|string} id 
      * @param {SaveData} saveData 
+     * @returns {any}
+     */
+    getEffect(id, saveData) {
+        return this.getUpgradeData(id).effectFunc(saveData);
+    }
+
+    /**
+     * @param {number|string} id 
+     * @param {SaveData} saveData
+     * @returns {boolean} 
+     */
+    hasUpgrade(id, saveData) {
+        return saveData[this.UpgradeKey].includes(id);
+    }
+
+    /**
+     * @param {number|string} id 
+     * @param {SaveData} saveData 
+     * @param {Decimal} value 
+     * @param {string} operator 
+     * @returns 
+     */
+    applyEffect(id, saveData, value, operator) {
+        if (!this.hasUpgrade(id, saveData)) return value;
+        return value[operator](this.getEffect(id, saveData));
+    }
+
+    /**
+     * @param {number|string} id 
+     * @param {SaveData} saveData 
      */
     unlocked(id, saveData) {
         const UpgradeData = this.getUpgradeData(id);
@@ -134,8 +164,8 @@ export default class UpgradeTree {
             !saveData[this.UpgradeKey].includes(UpgradeData.idx)
         ) return;
 
-        saveData[ResourceKey] = saveData[ResourceKey].sub(this.CostTable[UpgradeData.idx]);
-        saveData[UpgradeKey].push(id);
+        saveData[this.ResourceKey] = saveData[this.ResourceKey].sub(this.CostTable[UpgradeData.idx]);
+        saveData[this.UpgradeKey].push(id);
     }
 
     /**
@@ -163,7 +193,9 @@ export default class UpgradeTree {
         }); // Align text
         
         // Make it pretty
-        if (this.unlocked(id, saveData)) {
+        if (saveData[this.UpgradeKey].includes(id)) {
+            output = output.map(e => `[${e}]`);
+        } else if (this.unlocked(id, saveData)) {
             output[0] = `┌${output[0]}┐`;
             for (let i = 1; i < output.length-1; i++) output[i] = `│${output[i]}│`;
             output[output.length-1] = `└${output[output.length-1]}┘`;

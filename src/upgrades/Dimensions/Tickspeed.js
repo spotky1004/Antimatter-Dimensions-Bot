@@ -10,11 +10,11 @@ export default new Upgrade({
         return new Decimal(10).pow(bought.add(3))
     },
     effect(bought, saveData) {
-        return new Decimal(AntimatterGalaxy.effect(saveData.AntiGalaxy)).pow(bought).mul(1000);
+        return new Decimal(AntimatterGalaxy.effect(saveData.AntiGalaxy, saveData)).pow(bought).mul(1000);
     },
     toString(saveData) {
         const bought = saveData.TickSpeed;
-        return `Tickspeed (${notation(new Decimal(1).sub(AntimatterGalaxy.effect(saveData.AntiGalaxy)).mul(100))}%): ${notation(this.effect(bought, saveData)).padEnd(NotationLength)} [Cost: ${notation(this.cost(bought)).padEnd(NotationLength)}]`;
+        return `Tickspeed (${notation(new Decimal(1).sub(AntimatterGalaxy.effect(saveData.AntiGalaxy, saveData)).mul(100))}%): ${notation(this.effect(bought, saveData)).padEnd(NotationLength)} [Cost: ${notation(this.cost(bought)).padEnd(NotationLength)}]`;
     },
     canBuy(saveData) {
         return saveData.Dimensions[1].have.gte(1) && saveData.Antimatter.gte(this.cost(saveData.TickSpeed));

@@ -4,12 +4,21 @@ import { Prestige } from "../../util/game.js";
 import { NotationLength } from "../../data/literal.js";
 import Upgrade from "../../class/Upgrade.js";
 import { OrdinalNumbers } from "../../data/literal.js";
+// Infinity
+import InfinityUpgrades from "../Infinity/InfinityUpgrades.js";
 
 export default new Upgrade({
     name: "DimBoost",
-    cost(bought) {
-        if (bought.lt(4)) return new Decimal(20);
-        return new Decimal(20).add(new Decimal(15).mul(bought.sub(4)));
+    cost(bought, saveData) {
+        let cost;
+
+        if (bought.lt(4)) cost = new Decimal(20);
+        else cost = new Decimal(20).add(new Decimal(15).mul(bought.sub(4)));
+
+        // Infinity
+        cost = InfinityUpgrades.applyEffect(4, saveData, cost, "sub");
+
+        return cost;
     },
     /**
      * @param {Decimal} bought 
@@ -17,12 +26,15 @@ export default new Upgrade({
     costDimTier(bought) {
         return Math.min(7, bought.toNumber()+3);
     },
-    effect(bought) {
-        return new Decimal(2).pow(bought);
+    effect(bought, saveData) {
+        let base = new Decimal(2);
+        base = InfinityUpgrades.applyEffect(11, saveData, base, "mul");
+
+        return new Decimal(base).pow(bought);
     },
     canBuy(saveData) {
         const bought = saveData.DimBoost;
-        return saveData.Dimensions[this.costDimTier(bought)].have.gte(this.cost(bought));
+        return saveData.Dimensions[this.costDimTier(bought)].have.gte(this.cost(bought, saveData));
     },
     toString(saveData) {
         const bought = saveData.DimBoost;
@@ -31,7 +43,7 @@ export default new Upgrade({
         let output = "";
         output += namespace.padEnd(19);
         output += " " + `(${notation(bought)})`.padEnd(NotationLength+2);
-        output += " " + `: requires ${notation(this.cost(bought)).padEnd(NotationLength)}`;
+        output += " " + `: requires ${notation(this.cost(bought, saveData)).padEnd(NotationLength)}`;
         output += " " + (OrdinalNumbers[this.costDimTier(bought)] + " Dimensions").padEnd(18);
 
         return output;

@@ -2,8 +2,8 @@ import Decimal from "decimal.js";
 
 const _SaveData = {
     // Game Status
-    StartTime: 0,
-    LastTick: 0,
+    StartTime: Infinity,
+    LastTick: Infinity,
     Tab: "Dimensions",
     Unlock: {
         Infinity: false,

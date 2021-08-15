@@ -49,16 +49,16 @@ export default new UpgradeTree({
         (saveData) => new Decimal( ((new Date().getTime() - saveData.StartTime)/60_000/4)**0.15 ),
         (saveData) => saveData.PrestigeStat.Infinity.div(5).add(1),
         (saveData) => saveData.PrestigeStat.Infinity.div(5).add(1),
-        (_)        => new Decimal(-9),
+        (_)        => new Decimal(9),
 
-        (_)        => new Decimal(2.2),
+        (_)        => new Decimal(2.2/2),
         (saveData) => saveData.PrestigeStat.Infinity.div(5).add(1),
         (saveData) => saveData.PrestigeStat.Infinity.div(5).add(1),
         (_)        => new Decimal(2),
 
         (saveData) => Decimal.max(1, ((new Date().getTime() - saveData.PrestigeTime.Infinity )/60_000/2)**0.25 ),
         (saveData) => saveData.InfinityPoint.div(2).pow(1.5).add(1),
-        (_)        => new Decimal(2.5),
+        (_)        => new Decimal(2.5/2),
         (saveData) => new Decimal(1000/saveData.FastPrestige.Infinity/10),
 
         (_)        => new Decimal(1),

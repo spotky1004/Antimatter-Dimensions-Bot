@@ -4,7 +4,7 @@ import SaveData from "../data/saveData.js";
 export default class Upgrade {
     /**
      * @typedef {object} UpgradeConstructor
-     * @property {function(Decimal): Decimal} cost
+     * @property {function(Decimal, SaveData?): Decimal} cost
      * @property {function(Decimal, SaveData?): Decimal} effect
      * @property {function(SaveData): string} toString
      * @property {function(SaveData): boolean} canBuy

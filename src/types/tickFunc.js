@@ -4,10 +4,10 @@ import SaveData from "../data/saveData.js";
 /**
  * @param {number} dt 
  * @param {SaveData} saveData 
- * @param {string[]} buttonFunc 
+ * @param {Map<string, (string|number)[]|null>} event
  * @return { {message: string[], components: Discord.MessageActionRow[]} }
  */
-export default function TickFunc(dt, saveData, buttonFunc) {
+export default function TickFunc(dt, saveData, event) {
     return {
         message: ["string"],
         components: [

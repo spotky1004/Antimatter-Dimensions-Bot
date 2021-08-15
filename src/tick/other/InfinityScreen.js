@@ -1,14 +1,11 @@
-import Discord from "discord.js";
-
 import { Prestige } from "../../util/game.js";
-import SaveData from "../../data/saveData.js";
 import TickFunc from "../../types/tickFunc.js";
 
 
 
 /** @type {TickFunc} */
-export default function(dt, saveData, buttonFunc) {
-    if (buttonFunc.includes("BigCrunch")) {
+export default function(dt, saveData, event) {
+    if (event.has("BigCrunch")) {
         saveData.InfinityPoint = saveData.InfinityPoint.add(1);
         saveData.Tab = "Dimensions";
         saveData.Unlock.Infinity = true;

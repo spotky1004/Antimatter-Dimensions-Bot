@@ -5,6 +5,9 @@ import Config from "./config.js";
 
 const bot = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 
+/**
+ * @type {Object.<string, {message: Discord.Message, buttonFunc: string[]}>}
+ */
 const Cache = {};
 
 bot.on("messageCreate", async (message) => {
@@ -23,7 +26,10 @@ bot.on("messageCreate", async (message) => {
 
 bot.on("interactionCreate", async (interaction) => {
     const channel = interaction.channel.id;
-    if (typeof Cache[channel] === "undefined") return;
+    if (
+        typeof Cache[channel] === "undefined" ||
+        Cache[channel].message.id !== interaction.message.id
+    ) return;
 
     Cache[channel].buttonFunc.push(interaction.customId);
     Cache[channel].buttonFunc = [...new Set(Cache[channel].buttonFunc)];
@@ -45,10 +51,17 @@ bot.on("ready", function() {
 });
 
 async function UpdateMessage(channelId) {
-    /** @type { {message: Discord.Message, buttonFunc: string[]} } */
     const _Cache = Cache[channelId];
     if (_Cache.message.deleted) return;
-    await _Cache.message.edit(AntimatterDimension.tick(channelId, _Cache.buttonFunc))
+
+    let messageOptions;
+    try {
+        messageOptions = AntimatterDimension.tick(channelId, _Cache.buttonFunc)
+    } catch (e) {
+        console.log(e);
+    }
+
+    await _Cache.message.edit(messageOptions)
         .catch(err => console.error(err));
     _Cache.buttonFunc = [];
     await timer(2000);

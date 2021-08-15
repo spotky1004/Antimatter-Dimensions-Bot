@@ -1,5 +1,4 @@
 import Decimal from "decimal.js";
-import SaveData from "../../data/saveData.js";
 import TickFunc from "../../types/tickFunc.js";
 
 import {
@@ -13,7 +12,7 @@ import {
 
 
 /** @type {TickFunc} */
-export default function(dt, saveData, buttonFunc) {
+export default function(dt, saveData, event) {
     if (saveData.Antimatter.gte(new Decimal(2).pow(1024))) {
         saveData.Tab = "InfinityScreen";
         return;
@@ -30,35 +29,20 @@ export default function(dt, saveData, buttonFunc) {
     }
     UnlockedDims.sort((a, b) => a-b);
 
-    // Compute buttonFunc
-    for (let i = 0; i < buttonFunc.length; i++) {
-        /** @type {string[]} */
-        const rawFunc = buttonFunc[i].split("_");
 
-        const funcName = rawFunc.shift();
-        const funcParam = rawFunc;
-        switch (funcName) {
-            case "BuyMax":
-                for (let i = 0; i < MaxDimensionTier; i++) Dimensions[i].buy(saveData, true);
-                if (UnlockedDims.includes(3)) Tickspeed.buy(saveData, true);
-                break;
-            case "BuyDimension":
-                Dimensions[+funcParam[0] - 1].buy(saveData, false);
-                break;
-            case "BuyTickspeed":
-                Tickspeed.buy(saveData, false);
-                break;
-            case "BuyDimBoost":
-                DimensionBoost.buy(saveData);
-                break;
-            case "BuyDimensionSacrifice":
-                DimensionSacrifice.buy(saveData);
-                break;
-            case "BuyAntimatterGalaxy":
-                AntimatterGalaxy.buy(saveData);
-                break;
-        }
+
+    // Compute event
+    if (event.has("BuyMax")) {
+        for (let i = 0; i < MaxDimensionTier; i++) Dimensions[i].buy(saveData, true);
+        if (UnlockedDims.includes(3)) Tickspeed.buy(saveData, true);
     }
+    if (event.has("BuyDimension")) Dimensions[event.get("BuyDimension") - 1].buy(saveData, false);
+    if (event.has("BuyTickspeed")) Tickspeed.buy(saveData, false);
+    if (event.has("BuyDimBoost")) DimensionBoost.buy(saveData);
+    if (event.has("BuyDimensionSacrifice")) DimensionSacrifice.buy(saveData);
+    if (event.has("AntimatterGalaxy")) AntimatterGalaxy.buy(saveData);
+
+
 
     // ComputeTick
     for (let Tier = 7-1; Tier >= 0; Tier--) {
@@ -69,6 +53,8 @@ export default function(dt, saveData, buttonFunc) {
     }
     const AntimatterProduction = Dimensions[0].production(saveData);
     saveData.Antimatter = saveData.Antimatter.add(AntimatterProduction.mul(dt));
+
+
 
     // Display
     let output = [];
@@ -90,6 +76,8 @@ export default function(dt, saveData, buttonFunc) {
     let progressBar = ("=".repeat(Math.min(progressBarLength, Math.floor(progress*progressBarLength))) + "-".repeat(Math.max(0, Math.ceil((1-progress)*progressBarLength))));
     progressBar = progressBar.substr(0, progressBarLength/2-3) + (progress*100).toFixed(2).padStart(5, "-") + "%" + progressBar.substr(progressBarLength/2+3);
     output.push(progressBar);
+
+
 
     // Compnents
     let components = [];
