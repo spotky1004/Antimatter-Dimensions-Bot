@@ -52,7 +52,7 @@ bot.on("ready", function() {
 
 async function UpdateMessage(channelId) {
     const _Cache = Cache[channelId];
-    if (_Cache.message.deleted) return;
+    if (!_Cache || _Cache.message.deleted) return;
 
     let messageOptions;
     try {
@@ -62,7 +62,7 @@ async function UpdateMessage(channelId) {
     }
 
     await _Cache.message.edit(messageOptions)
-        .catch(err => console.error(err));
+        .catch(err => delete Cache[channelId]);
     _Cache.buttonFunc = [];
     await timer(2000);
 

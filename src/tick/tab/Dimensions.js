@@ -40,7 +40,7 @@ export default function(dt, saveData, event) {
     if (event.has("BuyTickspeed")) Tickspeed.buy(saveData, false);
     if (event.has("BuyDimBoost")) DimensionBoost.buy(saveData);
     if (event.has("BuyDimensionSacrifice")) DimensionSacrifice.buy(saveData);
-    if (event.has("AntimatterGalaxy")) AntimatterGalaxy.buy(saveData);
+    if (event.has("BuyAntimatterGalaxy")) AntimatterGalaxy.buy(saveData);
 
 
 

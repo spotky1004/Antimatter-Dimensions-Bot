@@ -18,7 +18,7 @@ export default new Upgrade({
         return `[ Dimensional Sacrifice (x${notation(this.effect(saveData.Dimensions[0].have).div(this.effect(saveData.DimSacrifice)))}) ]`;
     },
     buy(saveData) {
-        if (!DimSacrifice.canBuy(saveData)) return;
+        if (!this.canBuy(saveData)) return;
         saveData.DimSacrifice = Decimal.max(saveData.DimSacrifice, saveData.Dimensions[0].have);
         for (let i = 0; i < 7; i++) saveData.Dimensions[i].have = new Decimal(0);
     }

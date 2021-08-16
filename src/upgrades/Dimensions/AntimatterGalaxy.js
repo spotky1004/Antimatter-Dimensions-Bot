@@ -46,11 +46,10 @@ export default new Upgrade({
 
         return output;
     },
-    buyFunc(saveData, max=false) { // TODO: max buy
-        if (!AntiGalaxy.canBuy(saveData)) return;
+    buy(saveData, max=false) { // TODO: max buy
+        if (!this.canBuy(saveData)) return;
 
         saveData.AntiGalaxy = saveData.AntiGalaxy.add(1);
-
-        Prestige.AntimatterGalaxy(saveData)
+        Prestige.AntimatterGalaxy(saveData);
     }
 });
